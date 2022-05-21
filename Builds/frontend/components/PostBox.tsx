@@ -4,6 +4,7 @@ import Avatar from './Avatar';
 import { LinkIcon, PhotographIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form'
 
+
 type FormData = {
     postTitle: string
     postBody: string
@@ -22,7 +23,12 @@ function PostBox() {
         formState: { errors },
      } = useForm<FormData>()
 
-  return <form className='sticky top-16 z-50 bg-white border rounded-md border-gray-300 p-2'>
+    const onSubmit = handleSubmit(async (formData) => {
+
+    })
+
+  return (
+    <form onSubmit={onSubmit} className='sticky top-16 z-50 bg-white border rounded-md border-gray-300 p-2'>
       <div className='flex items-center space-x-3'>
           {/* Avatar: The way of the Water */}
           <Avatar seed='ray'/>
@@ -58,7 +64,7 @@ function PostBox() {
                 <p className='min-w-[90px]'>Subreddit:</p>
                 <input 
                     className='m-2 flex-1 bg-blue-50 p-2 outline-none'
-                    {...register('postBody')}
+                    {...register('subreddit', {required: true})}
                     type="text" 
                     placeholder='i.e. reactjs'
                 />
@@ -77,10 +83,29 @@ function PostBox() {
             )}      
             {/* Errors */}
 
-            {Object.keys(errors).length > 0}     
+            {Object.keys(errors).length > 0 && (
+                <div className='space-y-2 p-2 text-red-500'>
+                    {errors.postTitle?.type === 'required' && (
+                        <p>- A Post title Required</p>
+                    )}
+                    {errors.subreddit?.type === 'required' && (
+                        <p>- A Post title Required</p>
+                    )} 
+                </div>
+            )}
+            {!!watch('postTitle') && (
+
+                <button  
+                    type="submit"
+                    className='w-full rounded-full bg-blue-400 p-2 text-white'
+                >
+                    Create Post
+                </button>
+            )}
           </div>
       )}
   </form>
+  )
 }
 
 export default PostBox
