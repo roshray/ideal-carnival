@@ -3,6 +3,8 @@ import { useSession } from 'next-auth/react';
 import Avatar from './Avatar';
 import { LinkIcon, PhotographIcon } from '@heroicons/react/solid';
 import { useForm } from 'react-hook-form'
+import { useMutation } from '@apollo/client';
+import { ADD_POST } from '../graphql/mutations';
 
 
 type FormData = {
@@ -14,6 +16,8 @@ type FormData = {
 
 function PostBox() {
     const { data: session} = useSession() 
+
+    const [addPost, ] = useMutation(ADD_POST)
     const [imageBoxOpen, setImageBoxOpen] = useState(false)
     const {
         register,
